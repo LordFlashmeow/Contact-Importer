@@ -1,4 +1,11 @@
-fileName = input("Enter the name of the file to work with") + ".csv"
+fileName = input("Enter the name of the file to work with")
+outputType = input("Enter the type of output file. (csv/vcl)
+if outputType = "csv":
+    fileName = fileName + ".csv"
+#elif outputType = "vcl":           vCards not yet implemented
+#    fileName = fileName + ".vcl"
+
+
 
 people = open(fileName, 'a')
 
