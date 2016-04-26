@@ -83,7 +83,8 @@ def autoFormat():
                 [f.write('{0},{1}\n'.format(key, value)) for key, value in personDict.items()]
         elif destination == "o":
             for first, last, email in personDict.values():
-                combined = first + "," + last + "," + email + "\n"
+                combined = first + "," + last + "," + email + "," + name + "\n"  # Format for outlook is "First Name",
+                # "Last Name","E-mail Address","E-mail Display Name"
                 people = open(fileName, 'a')
                 people.write(combined)
                 people.close()
