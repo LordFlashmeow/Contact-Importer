@@ -60,15 +60,14 @@ def autoFormat():
             break
         email = input("Enter the person's email \n")
         personDict[name] = [name, email]
+
     if len(personDict) > 10:
         print("Exporting as CSV \n")
         fileName = input("Enter the name of the output file \n") + ".csv"
         with open(fileName, 'w') as f:
             [f.write('{0},{1}\n'.format(key, value)) for key, value in personDict.items()]
     elif len(personDict) <= 10:
-        keyValue = personDict[name]
-        for keyValue in personDict:
-            for key, value in personDict.iteritems():
+        for name, email in personDict.values():
                 combined = "BEGIN:VCARD\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
                 fileName = name + ".vcl"
                 people = open(fileName, 'a')
