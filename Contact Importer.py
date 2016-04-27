@@ -48,7 +48,7 @@ def vCard():
         name = input("Enter the person's name \n")
         if name == "q":
             break
-        email = input("Enter the person's name \n")
+        email = input("Enter the person's email \n")
         combined = "BEGIN:VCARD" \
                    "\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
         fileName = name + ".vcl"
