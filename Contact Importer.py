@@ -34,29 +34,81 @@ def google(fileName):
         name = input("Enter the person's name \n")
         if name == "q":
             break
-        email = input("Enter the person's email \n")
-        combined = name + "," + email + "\n"
-        people = open(fileName, 'a')
-        people.write(combined)
-        people.close()
-        personDict[name] = [name, email]
-        print("Submitted \n")
+        if name == "e":
+            print(personDict[tempname])
+            while True:
+                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
+                if "n" in choice:
+                    name = input("Enter the corrected name: \n")
+                    nameedit = True
+                if "e" in choice:
+                    email = input("Enter the corrected email: \n")
+                    if nameedit is True:
+                        personDict[tempname] = [name, email]
+                    else:
+                        personDict[tempname] = [tempname, email]
+                if "q" in choice:
+                    personDict[name] = [name, email]
+                    del personDict[tempname]
+                    edited = True
+                    name = None
+                    email = None
+                    break
+                else:
+                    print("Your input was not valid. Please try again. \n")
+        if edited is False:
+            email = input("Enter the person's email \n")
+            tempname = name
+            combined = name + "," + email + "\n"
+            people = open(fileName, 'a')
+            people.write(combined)
+            people.close()
+            personDict[name] = [name, email]
+            print("Submitted \n")
 
 
 def vCard():
     while True:
+        edited = False
         name = input("Enter the person's name \n")
         if name == "q":
             break
-        email = input("Enter the person's email \n")
-        combined = "BEGIN:VCARD" \
-                   "\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
-        fileName = name + ".vcl"
-        people = open(fileName, 'a')
-        people.write(combined)
-        people.close()
-        personDict[name] = [name, email]
-        print("Submitted \n")
+        if name == "e":
+            print(personDict[tempname])
+            while True:
+                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
+                if "n" in choice:
+                    name = input("Enter the corrected name: \n")
+                    nameedit = True
+                if "e" in choice:
+                    email = input("Enter the corrected email: \n")
+                    if nameedit is True:
+                        personDict[tempname] = [name, email]
+                    else:
+                        personDict[tempname] = [tempname, email]
+                if "q" in choice:
+                    personDict[name] = [name, email]
+                    del personDict[tempname]
+                    edited = True
+                    name = None
+                    email = None
+                    break
+                else:
+                    print("Your input was not valid. Please try again. \n")
+
+        if edited is False:      # Check if contact has been edited
+            email = input("Enter the person's email \n")
+            tempname = name
+            combined = "BEGIN:VCARD" \
+                       "\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
+            fileName = name + ".vcl"
+            people = open(fileName, 'a')
+            people.write(combined)
+            people.close()
+            personDict[name] = [name, email]
+            edited = False
+            print("Submitted \n")
+        edited = False
 
 
 def autoFormat():
@@ -65,14 +117,39 @@ def autoFormat():
         name = input("Enter the person's name \n")
         if name == "q":
             break
-        email = input("Enter the person's email \n")
-        if destination == "g":
-            personDict[name] = [name, email]
-        elif destination == "o":
-            splitname = name.split()
-            first = splitname[0]
-            last = splitname[-1]
-            personDict[name] = [first, last, email]
+        if name == "e":
+            print(personDict[tempname])
+            while True:
+                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
+                if "n" in choice:
+                    name = input("Enter the corrected name: \n")
+                    nameedit = True
+                if "e" in choice:
+                    email = input("Enter the corrected email: \n")
+                    if nameedit is True:
+                        personDict[tempname] = [name, email]
+                    else:
+                        personDict[tempname] = [tempname, email]
+                if "q" in choice:
+                    personDict[name] = [name, email]
+                    del personDict[tempname]
+                    edited = True
+                    name = None
+                    email = None
+                    break
+                else:
+                    print("Your input was not valid. Please try again. \n")
+
+        if edited is False:  # Check if contact has been edited
+            email = input("Enter the person's email \n")
+            tempname = name
+            if destination == "g":
+                personDict[name] = [name, email]
+            elif destination == "o":
+                splitname = name.split()
+                first = splitname[0]
+                last = splitname[-1]
+                personDict[name] = [first, last, email]
 
     if len(personDict) > 10:
         print("Exporting as CSV \n")
