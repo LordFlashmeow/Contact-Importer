@@ -1,3 +1,8 @@
+import os
+outputFolder = os.getcwd()
+if not os.path.exists(outputFolder):
+    os.makedirs("Output")
+
 outputAuto = None
 outputType = None
 destination = None
@@ -30,6 +35,7 @@ def autoOutput():
 
 
 def google(fileName):
+    os.chdir("Output")
     while True:
         name = input("Enter the person's name \n")
         if name == "q":
@@ -68,6 +74,7 @@ def google(fileName):
 
 
 def vCard():
+    os.chdir("Output")
     while True:
         edited = False
         name = input("Enter the person's name \n")
@@ -112,7 +119,9 @@ def vCard():
 
 
 def autoFormat():
+    os.chdir("Output")
     global destination
+    edited = False
     while True:
         name = input("Enter the person's name \n")
         if name == "q":
@@ -166,6 +175,7 @@ def autoFormat():
                 people.close()
 
     elif len(personDict) <= 10:
+        os.chdir("Output")
         for name, email in personDict.values():
             combined = "BEGIN:VCARD\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
             fileName = name + ".vcl"
