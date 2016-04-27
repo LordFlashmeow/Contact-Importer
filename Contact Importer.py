@@ -57,7 +57,6 @@ def vCard():
         people.close()
         personDict[name] = [name, email]
         print("Submitted \n")
-        tempname = None
 
 
 def autoFormat():
