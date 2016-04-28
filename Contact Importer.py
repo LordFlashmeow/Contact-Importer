@@ -1,6 +1,6 @@
 import os
 outputFolder = os.getcwd()
-if not os.path.exists(outputFolder):
+if not os.path.exists("Output"):
     os.makedirs("Output")
 
 outputAuto = None
@@ -41,27 +41,10 @@ def google(fileName):
         if name == "q":
             break
         if name == "e":
-            print(personDict[tempname])
-            while True:
-                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
-                if "n" in choice:
-                    name = input("Enter the corrected name: \n")
-                    nameedit = True
-                if "e" in choice:
-                    email = input("Enter the corrected email: \n")
-                    if nameedit is True:
-                        personDict[tempname] = [name, email]
-                    else:
-                        personDict[tempname] = [tempname, email]
-                if "q" in choice:
-                    personDict[name] = [name, email]
-                    del personDict[tempname]
-                    edited = True
-                    name = None
-                    email = None
-                    break
-                else:
-                    print("Your input was not valid. Please try again. \n")
+            edit(personDict, tempname)
+            edited = True
+            name = None
+
         if edited is False:
             email = input("Enter the person's email \n")
             tempname = name
@@ -81,27 +64,9 @@ def vCard():
         if name == "q":
             break
         if name == "e":
-            print(personDict[tempname])
-            while True:
-                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
-                if "n" in choice:
-                    name = input("Enter the corrected name: \n")
-                    nameedit = True
-                if "e" in choice:
-                    email = input("Enter the corrected email: \n")
-                    if nameedit is True:
-                        personDict[tempname] = [name, email]
-                    else:
-                        personDict[tempname] = [tempname, email]
-                if "q" in choice:
-                    personDict[name] = [name, email]
-                    del personDict[tempname]
-                    edited = True
-                    name = None
-                    email = None
-                    break
-                else:
-                    print("Your input was not valid. Please try again. \n")
+            edit(personDict, tempname)
+            edited = True
+            name = None
 
         if edited is False:      # Check if contact has been edited
             email = input("Enter the person's email \n")
@@ -109,12 +74,8 @@ def vCard():
             combined = "BEGIN:VCARD" \
                        "\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
             fileName = name + ".vcl"
-            people = open(fileName, 'a')
-            people.write(combined)
-            people.close()
+            export(combined, fileName)
             personDict[name] = [name, email]
-            edited = False
-            print("Submitted \n")
         edited = False
 
 
@@ -127,27 +88,9 @@ def autoFormat():
         if name == "q":
             break
         if name == "e":
-            print(personDict[tempname])
-            while True:
-                choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
-                if "n" in choice:
-                    name = input("Enter the corrected name: \n")
-                    nameedit = True
-                if "e" in choice:
-                    email = input("Enter the corrected email: \n")
-                    if nameedit is True:
-                        personDict[tempname] = [name, email]
-                    else:
-                        personDict[tempname] = [tempname, email]
-                if "q" in choice:
-                    personDict[name] = [name, email]
-                    del personDict[tempname]
-                    edited = True
-                    name = None
-                    email = None
-                    break
-                else:
-                    print("Your input was not valid. Please try again. \n")
+            edit(personDict, tempname)
+            edited = True
+            name = None
 
         if edited is False:  # Check if contact has been edited
             email = input("Enter the person's email \n")
@@ -170,19 +113,42 @@ def autoFormat():
             for first, last, email in personDict.values():
                 combined = first + "," + last + "," + email + "," + name + "\n"  # Format for outlook is "First Name",
                 # "Last Name","E-mail Address","E-mail Display Name"
-                people = open(fileName, 'a')
-                people.write(combined)
-                people.close()
+                export(combined, fileName)
 
     elif len(personDict) <= 10:
         os.chdir("Output")
         for name, email in personDict.values():
             combined = "BEGIN:VCARD\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
             fileName = name + ".vcl"
-            people = open(fileName, 'a')
-            people.write(combined)
-            people.close()
-            print("Created file for " + name)
+            exportvcard(combined, fileName)
+
+
+def export(combined, fileName):
+    people = open(fileName, 'a')
+    people.write(combined)
+    people.close()
+
+
+def edit(personDict, tempname):
+    print(personDict[tempname])
+    while True:
+        choice = input("Do you want to edit the (n)ame or (e)mail or (q)uit?")
+        if "n" in choice:
+            name = input("Enter the corrected name: \n")
+            nameedit = True
+        if "e" in choice:
+            email = input("Enter the corrected email: \n")
+            if nameedit is True:
+                personDict[tempname] = [name, email]
+            else:
+                personDict[tempname] = [tempname, email]
+        if "q" in choice:
+            personDict[name] = [name, email]
+            del personDict[tempname]
+            break
+        else:
+            print("Your input was not valid. Please try again. \n")
+
 
 
 autoOutput()
