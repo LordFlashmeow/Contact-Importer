@@ -120,7 +120,7 @@ def autoFormat():
         for name, email in personDict.values():
             combined = "BEGIN:VCARD\nVERSION:4.0\n" + "FN:" + name + "\n" + "EMAIL:" + email + "\n" + "END:VCARD"
             fileName = name + ".vcl"
-            exportvcard(combined, fileName)
+            export(combined, fileName)
 
 
 def export(combined, fileName):
