@@ -49,6 +49,9 @@ def google(fileName):
             email = input("Enter the person's email \n")
             tempname = name
             combined = name + "," + email + "\n"
+            header = open(fileName, "a")
+            header.write("Name,E-mail 1 - Type")
+            header.close()
             people = open(fileName, 'a')
             people.write(combined)
             people.close()
@@ -76,7 +79,6 @@ def vCard():
             fileName = name + ".vcl"
             export(combined, fileName)
             personDict[name] = [name, email]
-        edited = False
 
 
 def autoFormat():
@@ -107,9 +109,15 @@ def autoFormat():
         print("Exporting as CSV \n")
         fileName = input("Enter the name of the output file \n") + ".csv"
         if destination == "g":
+            header = open(fileName, "a")
+            header.write("Name,E-mail 1 - Type")
+            header.close()
             with open(fileName, 'w') as f:
                 [f.write('{0},{1}\n'.format(key, value)) for key, value in personDict.items()]
         elif destination == "o":
+            header = open(fileName, "a")
+            header.write("First Name,Last Name,E-mail Address,E-mail Display Name")
+            header.close()
             for first, last, email in personDict.values():
                 combined = first + "," + last + "," + email + "," + name + "\n"  # Format for outlook is "First Name",
                 # "Last Name","E-mail Address","E-mail Display Name"
